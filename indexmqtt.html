@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=TIS-620">
+<title>MQTT DTH11</title>
+<script src="jquery-1.11.3.min.js"></script>
+<script src="mqttws31.js"></script>
+<link rel="stylesheet" href="style.css">
+<script>
+var config = {
+
+	mqtt_server: "m11.cloudmqtt.com",
+	mqtt_websockets_port: 38603,
+	mqtt_user: "sharkpotato",
+	mqtt_password: "5221040233"
+};
+
+$(document).ready(function(e) {
+	client = new Paho.MQTT.Client(config.mqtt_server, config.mqtt_websockets_port, "web_" + parseInt(Math.random() * 100, 10)); 
+	client.connect({
+		useSSL: true,
+		userName: config.mqtt_user,
+		password: config.mqtt_password,
+		onSuccess: function() {
+			$("#status").text("Connected").removeClass().addClass("connected");
+			client.subscribe("Temperature");
+			mqttSend("Temperature", "0");
+		},
+		onFailure: function(e) {
+			$("#status").text("Error : " + e).removeClass().addClass("error");
+		}
+	});
+	
+	client.onConnectionLost = function(responseObject) {
+		if (responseObject.errorCode !== 0) {
+			$("#status").text("onConnectionLost:" + responseObject.errorMessage).removeClass().addClass("connect");
+			setTimeout(function() { client.connect() }, 1000);
+		}
+	}
+	
+	client.onMessageArrived = function(message) {
+		console.log(message.payloadString);
+		document.getElementById('temp').innerHTML=
+                  "<h4> Temperature : " + message.payloadString + " &deg;C</h4>"
+	}
+});
+
+var mqttSend = function(topic, msg) {
+	var message = new Paho.MQTT.Message(msg);
+	message.destinationName = topic;
+	client.send(message); 
+}
+</script>
+</head>
+<table align="center" border="0" width="100%" height="100%" background="image/bg2.png">
+<tr>
+	<td align="right" width="65%">
+	<font face="Comic Sans MS" size="5">
+		<h1>MQTT DHT11</h1></font>
+	</td>
+	<td align="center" width="35%">
+	<font face="Comic Sans MS" size="1" color="#0000CD">
+		<h5>DHT Control : <span id="status" class="connect">Connect...</span></h5></font>
+	</td>
+</tr>
+<tr>
+	<td align="center" colspan="2">
+	<font face="TH Krub" size="5"><h2>อุณหภูมิ ณ เวลานี้</h2></font>
+	<font face="Comic Sans MS" color="#FF3300" size="5">
+		<h3 id="temp"></h3></font>
+	</td>
+</tr>
+<tr>
+    <td align="center" colspan="2">
+    </td>
+</tr>
+</table>
+</html>

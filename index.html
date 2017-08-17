@@ -1,0 +1,105 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTH11</title>
+    <link rel="stylesheet" type="text/css" href="style.css" >
+    <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      var config = {
+        apiKey: "AIzaSyD71cYH1GtBFNvYlGAPHZjTZCh9a__6p1U",
+        authDomain: "daydevproject-98be3.firebaseapp.com",
+        databaseURL: "https://daydevproject-98be3.firebaseio.com",
+        projectId: "daydevproject-98be3",
+        storageBucket: "daydevproject-98be3.appspot.com",
+        messagingSenderId: "416144255386"
+      };
+        firebase.initializeApp(config);
+        window.addEventListener('load', function()
+          {
+            firebase.database().ref('DHT').on('value', function(data) 
+      {
+      var childKey = data.val();
+              if (childKey.temp>=30) {
+                document.getElementById('images').innerHTML ='<img src="image/hot.png">';
+              }else if(childKey.temp>=25&&childKey.temp<=29){
+                document.getElementById('images').innerHTML ='<img src="image/comfor.png">';
+              }else{
+                document.getElementById('images').innerHTML ='<img src="image/cold.gif">';
+                }
+                document.getElementById('tempdata').innerHTML=
+                  "<h3 class='boxed'> Temp: " + childKey.temp + " &deg;C" +
+                  "&nbsp; Humi: " + childKey.humi + " &deg;C" +
+                  "&nbsp; Heat: " + childKey.heat + " &deg;F</h3>" 
+              google.charts.load('current', {packages: ['corechart', 'bar']});
+              google.charts.setOnLoadCallback(drawMultSeries);
+              function drawMultSeries(value) {
+                    var dataT = google.visualization.arrayToDataTable([
+                       ['Element', 'Temp', { role: 'style' }, { role: 'annotation' }],
+                       ['Temp', 0, 'gold','Tu'],     
+                    ]);
+                    var dataH = google.visualization.arrayToDataTable([
+                       ['Element', 'Humi', { role: 'style' }, { role: 'annotation' }],
+                       ['Humi', 0, 'gold','Hu'],     
+                    ]);
+                    var dataF = google.visualization.arrayToDataTable([
+                       ['Element', 'Heat', { role: 'style' }, { role: 'annotation' }],
+                       ['Heat', 0, 'gold','He'],     
+                    ]);
+                    var options = {
+                      width: 100,
+                      height: 290,
+                      backgroundColor: '#CCFF66',
+                      bar: {groupWidth: "40%"},
+                      legend: { position: "none" },
+                    };
+                    var chartT = new google.visualization.ColumnChart(
+                      document.getElementById('Temp'));
+                    var chartH = new google.visualization.ColumnChart(
+                      document.getElementById('Humi'));
+                    var chartF = new google.visualization.ColumnChart(
+                      document.getElementById('Heat'));
+                    dataT.setValue(0, 1, childKey.temp);
+                    dataH.setValue(0, 1, childKey.humi);
+                    dataF.setValue(0, 1, childKey.heat);
+                    chartT.draw(dataT,options);
+                    chartH.draw(dataH,options);
+                    chartF.draw(dataF,options);
+                  }
+                }); 
+              });      
+    </script>
+  </head>
+
+  <body>
+  <table align="center" border="0" width="100%" height="100%" background="image/bg2.png">
+	<tr>
+    	<td align="center">
+            <img src = "image/don.png">
+            <img src = "image/hon.png">
+            <img src = "image/ton.png">
+    	</td>
+	</tr>
+	<tr>
+		<td align="center">
+		<font face="TH Krub" size="5"><h2>อุณหภูมิ ณ เวลานี้</h2></font>
+    	<font face="Comic Sans MS" color="#FF3300" size="3">
+			<h2 id="tempdata"></h2></font>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<table align="center" border="0" width="50%" bgcolor="#FF0000" style="border-radius: 15px;">
+				<tr align="center">
+					<td id="images"></td>
+			        <td id="Temp"></td>
+			        <td id="Humi"></td>
+			        <td id="Heat"></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+  </table>
+  </body>
+</html>
