@@ -1,11 +1,9 @@
 # กลุ่ม Parallel database DEW
 
-# วงจรรวม
-
 ![alttext](https://github.com/watthana233/DHT11cloud/blob/master/dhtcloud.png)
 
 
-#อุปกรณ์ที่ใช้
+# อุปกรณ์ที่ใช้
 
 # DHT11
 เป็นเซ็นเซอร์ที่ใช้วัดอุณหภูมิเป็นองศาเซลเซียล และองศาฟาเรนไฮ ยังสามารถวัดความชื้นได้อีกด้วย มีไลบารี่พร้อมใช่งานกับ Arduino หรือ Nodemcu สามารถใช้วัดค่าได้เที่ยงตรงกว่า NTC หรือ PTC มาก เพราะให้เอาต์พุตออกมาในรูปของดิจิตอล ใช้วัดอุณหภูมิอากาศโดยรอบ
@@ -48,7 +46,12 @@ NodeMCU V2 ถูกพัฒนาให้สามารถใช้ร่ว
     
 ![alttext](https://github.com/watthana233/DHT11cloud/blob/master/nodemcu.png)
 
+# วิธีการต่อใช้งาน
 
+![alttext](https://github.com/watthana233/DHT11cloud/blob/master/dhtcloud.png)
+
+
+หมายเหตุ ขา RST ต่อเข้า D0 คือ การเข้าโหมด Sleep เพื่อเป็นการประหยัดพลังงาน
 -----------------------------
 สมาชิกกลุ่ม
 1. นายบัณฑิต  วีระ 56523206053-5
