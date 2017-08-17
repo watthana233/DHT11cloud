@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Soil</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+	<script type="text/javascript" src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
+	<script type="text/javascript" src="http://static.fusioncharts.com/code/latest/themes/fusioncharts.theme.fint.js?cacheBust=56"></script>
+	<script type="text/javascript">
+	 var config = {
+    apiKey: "AIzaSyAgSdSp4ZqW4oBGaOADXLnYtbUNKDIxEjQ",
+    authDomain: "soil-5abff.firebaseapp.com",
+    databaseURL: "https://soil-5abff.firebaseio.com",
+    projectId: "soil-5abff",
+    storageBucket: "soil-5abff.appspot.com",
+    messagingSenderId: "780766878368"
+  };
+  	firebase.initializeApp(config);
+  	window.addEventListener('load', function()
+          {
+            firebase.database().ref('Soil').on('value', function(data) 
+      {
+        var childKey = data.val();
+        document.getElementById('soil').innerHTML=
+                  "<h3 class='boxed'> Data: " + childKey.data +
+                  "&nbsp; <br> Percent: " + childKey.percent + "</h3>" 
+            google.charts.load('current', {packages: ['corechart', 'bar']});
+              google.charts.setOnLoadCallback(drawMultSeries);
+              function drawMultSeries(value) {
+                    var dataT = google.visualization.arrayToDataTable([
+                       ['Element', 'data', { role: 'style' }, { role: 'annotation' }],
+                       ['data', 0, 'gold','Tu'],     
+                    ]);
+                    var options = {
+                      width: 150,
+                      height: 200,
+                      backgroundColor: '#CCFF66',
+                      bar: {groupWidth: "40%"},
+                      legend: { position: "none" },
+                    };
+                    var chartT = new google.visualization.ColumnChart(
+                      document.getElementById('data'));
+                    dataT.setValue(0, 1, childKey.data);
+                    chartT.draw(dataT,options);
+                  }
+                }); 
+              });      
+    </script>
+
+	</head>
+<body bgcolor="#CCFFFF">
+<table width="80%" height="100%" border="0" align="center"  bgcolor="#CCFFFF">
+	<tr>
+	<td colspan="2">
+		<div align="center">
+		<header><h1>การวัดค่าความชื้นของดินในช่วง 0-1024</h1></header>
+		</div>
+		<div>
+		<font face="TH Niramit AS">
+			<h4>ค่าความชื้นที่มีค่า 0-700 หรือมากกว่านั้น เป็นค่าที่อ่านได้จากการวัดความชื้นดินแบบทางอ้อม โดยใช้เครื่องมืออิเลคทรอนิกส์วัดการต้านทานไฟฟ้าหรือการนำไฟฟ้าของน้ำในดิน แล้วแปลงเป็นค่าของปริมาณของน้ำในดินมีหน่วยวัดเป็นมิลลิโวลล์ (mv) หรืออาจอ่านค่าเป็นร้อยละโดยปริมาตร</h4></font>
+		</div>
+	</td>
+	<tr>
+	<td width="20%">
+		<div id="data" ></div>
+	</td>
+	<td width="60%" align="center"  background="so.png" style="color:#8B4513;">
+		<font face="TH Niramit AS" size="5">
+		<h1 id="datashow"></h1>
+		<h2>เปอร์เซ็นความชื้นในดิน</h2></font>
+		<font face="Comic Sans MS">
+		<h3>% Moisture = (Soil Moisture/1024) x 100</h3>
+		<h3 id="soil"></h3></font>
+	</td>
+	</tr>
+</body>
+</body>
+</html>
