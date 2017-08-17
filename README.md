@@ -32,7 +32,7 @@
 # 20x4 Character LCD Module
 จอแสดงผล LCD ขนาด 20 ตัวอักษร 4 บรรทัด ใช้ไฟ 5 โวลต์ พร้อมไฟ blacklight เชื่อมต่อกับ Arduino หรือ Nodemcu ได้ง่ายใช้ library มาตรฐานพร้อมใช้งาน 
 
-![alttext](https://github.com/watthana233/DHT11cloud/blob/master/lcd.png)
+![alttext](https://github.com/watthana233/DHT11cloud/blob/master/dhtcloud.png)
 
 # 20x4 Character LCD Moduleมีทั้งหมดอยู่ 4 ขา คือ
 ลำดับ ขาใช้งาน
